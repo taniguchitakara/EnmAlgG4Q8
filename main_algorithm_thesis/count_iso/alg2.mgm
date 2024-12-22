@@ -1,0 +1,71 @@
+function cartier_gcd_root(p)
+    // Define the finite field
+    F := FiniteField(p);
+
+    // Define the polynomial ring
+    R<a> := PolynomialRing(F);
+    P<x> := PolynomialRing(R);
+
+    // Define the curve equation
+    e := Integers()!((p-1)/2);
+    f_powered := (x-1)^e*(x+1)^e*(x^2+a*x+1)^e;
+
+    // Check if all components of CartierSeq are zero
+    p_mod := p mod 8;
+    if p_mod eq 1 or p_mod eq 5 then
+        coefficient_list := [Integers()!((n-e)/2): n in [p-1,p-3,2*p-2,2*p-4]];
+    else
+        coefficient_list := [Integers()!((n-e)/2): n in [p-2,p-4,2*p-1,2*p-3]];
+    end if;
+
+    seq := [];
+    for coef in coefficient_list do
+        CartierRep := Coefficient(f_powered,coef);
+        Append(~seq, CartierRep);
+    end for;
+
+    gcd_all := GCD(seq);
+    differential_gcdall := Derivative(gcd_all);
+    if GCD(differential_gcdall,gcd_all) eq 1 then
+        return gcd_all;
+    end if;
+end function;
+
+
+// 同型類の個数を数えるアルゴリズム
+function count_isomorphism(p,gcd_all)
+    F := FiniteField(p^2);
+    P<a> := PolynomialRing(F);
+    roots := Roots(a^2+12);
+
+    d := Degree(gcd_all);
+    if Evaluate(gcd_all, 2) eq 0 or Evaluate(gcd_all, -2) eq 0 then
+        printf "Singular point detected!\n";
+        d = d - 2;
+        return 0;
+    end if;
+    if Evaluate(gcd_all, roots[1][1]) eq 0 then
+        d := d - 2;
+        printf "SL(2,3) detected\n";
+    end if;
+    if Evaluate(gcd_all,0) eq 0 then
+        d := d - 3;
+        printf "SD32 detected\n";
+    end if;
+    return(d / 6);
+end function;
+
+primes := [p : p in [7..10000] | IsPrime(p)];
+
+for p in primes do
+    start_time := Realtime();
+    printf "For p=%o\n",p; 
+    gcd_all := cartier_gcd_root(p);
+    num_iso := count_isomorphism(p,gcd_all);
+    printf "num_of_iso = %o\n", num_iso;
+    end_time := Realtime();
+    execution_time := end_time - start_time;
+    print "Execution time:", execution_time, "seconds\n";  
+end for;
+
+

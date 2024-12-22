@@ -1,0 +1,43 @@
+
+primes := [p : p in [3..30] | IsPrime(p)];
+// Get the genus of the curve
+g := 4;
+for p in primes do
+    count := 0;
+    // Define the finite field
+    F := FiniteField(p^2);
+
+    // Define the polynomial ring
+    P<x,a> := PolynomialRing(F,2);
+    P<z> := PolynomialRing(FiniteField(p)); // chenge Type
+
+    // Define the curve equation
+    f := x*(x^4-1)*(x^4+a*x^2+1);
+
+
+
+
+    // Check if all components of CartierSeq are zero
+
+    for input_a in [1..p^2] do
+        f_substitute_a := Evaluate(f, [z, input_a]);
+        for input_b in [input_a..p^2] do
+            f_substitute_b := Evaluate(f, [z, input_b]);
+            try
+                // エラーが発生する可能性のあるコード
+                H_a := HyperellipticCurve(f_substitute_a);
+                H_b := HyperellipticCurve(f_substitute_b);
+                isIsomorphic, isoMap := IsIsomorphicHyperellipticCurves(H_a,H_b : geometric:=true);
+                if isIsomorphic eq true then
+                    printf "For p =%o, a = %o,b = %o, \n", p, input_a, input_b;
+                    printf "The curves are isomorphic.";
+                else
+                    printf "The curves are not isomorphic.";
+                end if;
+            catch e
+                printf "For p =%o, a = %o,b = %o, error\n", p, input_a, input_b;
+            end try;
+        end for;
+    end for;
+
+end for;

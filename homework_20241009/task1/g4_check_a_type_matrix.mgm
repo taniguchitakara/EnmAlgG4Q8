@@ -1,0 +1,45 @@
+// List of prime numbers between 11 and 19
+
+primes := [p : p in [5..200] | IsPrime(p)];
+
+for p in primes do
+    // Define the finite field
+    F := FiniteField(p^2);
+
+    // Define the polynomial ring
+    P<x,a> := PolynomialRing(F,2);
+
+    // Define the curve equation
+    f_powered := (x*(x^4 - 1)*(x^4+a*x^2+1))^((p-1) div 2);
+
+    // Get the genus of the curve
+    g := 4;
+    seq := [];
+    // Check if all components of CartierSeq are zero
+
+    allZero := true;
+    for i in [1..g] do
+        for j in [1..g] do
+            CartierRep := Coefficient(f_powered,x, p*i-j);
+            printf "%o ",CartierRep; 
+                if CartierRep ne 0 then
+                    Append(~seq, CartierRep);
+                end if;
+            if CartierRep ne 0 then
+                allZero := false;
+            end if;
+        end for;
+        printf "\n"; 
+    end for;
+    gcd_all := GCD(seq);
+    factors := Factorization(gcd_all);
+    printf "For p=%o, ",p; 
+    printf "num(a) = %o\n",#factors;
+
+    // Print the result
+    //if allZero then
+    //    printf "For p = %o, superspecial\n", p;
+    //else
+    //    printf "For p = %o, not superspecial\n", p;
+    //end if;
+end for;

@@ -1,0 +1,4 @@
+*.txt
+*/*.txt
+*/*/*.txt
+./homework_20241009/task2/output.txt
