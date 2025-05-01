@@ -1,6 +1,6 @@
 # Hyperelliptic Curve Computations
 
-This repository contains Magma scripts for performing computations related to hyperelliptic curves (HECs) over finite fields. The scripts are designed to compute properties of HECs whose automorphism contain quaterninon.
+This repository contains Magma scripts for performing computations related to hyperelliptic curves (HECs) over finite fields. The scripts are designed to compute isomorphism classes of HECs whose automorphism contain quaterninon.
 
 ## Files
 
