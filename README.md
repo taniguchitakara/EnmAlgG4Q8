@@ -1,14 +1,14 @@
 # Hyperelliptic Curve Computations
 
-This repository contains Magma scripts for performing computations related to hyperelliptic curves (HECs) over finite fields. The scripts are designed to compute isomorphism classes of HECs whose automorphism contain quaterninon.
+This repository contains Magma scripts for performing computations related to hyperelliptic curves (HECs) over finite fields. The scripts are designed to compute isomorphism classes of superspecial HECs whose automorphism contain quaterninon.
 
 ## Files
 
 ### `alg2.mgm`
-This script computes the number of isomorphism classes of hyperelliptic curves over finite fields.
+This script computes the number of isomorphism classes of superspecial hyperelliptic curves over finite fields.
 
 ### `alg3.mgm`
-The script iterates over a range of prime numbers and outputs the representatives of HECs whose automorphism is quaternion for each prime.
+The script iterates over a range of prime numbers and outputs the representatives of superspecial HECs whose automorphism is quaternion for each prime.
 
 ## Requirements
 
